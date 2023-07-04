@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API GITHUB</title>
+</head>
+<body>
+    <main>
+        <h1>GitHub API</h1>
+        <label for="username">Nome de usuário:</label>
+        <input type="text" id="username">
+        <button onclick="pesquisarUsuario()">Pesquisar</button>
+        <div id="resultado"></div>
+
+        <script>
+            function pesquisarUsuario() {
+              const username = document.getElementById('username').value;
+        
+              fetch(`https://api.github.com/users/${username}`)
+                .then(response => response.json())
+                .then(data => {
+                  const resultado = document.getElementById('resultado');
+                  resultado.innerHTML = `
+                    <img src="${data.avatar_url}" alt="Avatar" class="avatar">
+                    <p>Nome: ${data.name}</p>
+                    <p>Username: ${data.login}</p>
+                    <p>Quantidade de repositórios: ${data.public_repos}</p>
+                    <p>Quantidade de seguidores: ${data.followers}</p>
+                    <p>Quantidade de usuários que está seguindo: ${data.following}</p>
+                    <p><a href="https://github.com/${data.login}?tab=repositories">Link para os repositórios</a></p>
+                  `;
+                })
+                .catch(error => {
+                  console.error('Ocorreu um erro:', error);
+                });
+            }
+          </script>
+      </main>
+</body>
+</html>
